@@ -1,7 +1,8 @@
-﻿import Header from './components/Header.jsx'
+﻿import { useEffect, useState } from 'react'
+import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 
-const agendaItems = [
+const defaultAgendaItems = [
   { bulan: 'NOV', tanggal: '25', judul: 'Peringatan Hari Guru Nasional', waktu: '07.30 WIB', tempat: 'Lapangan Utama', kategori: 'Upacara' },
   { bulan: 'DES', tanggal: '02', judul: 'Tryout Akbar UTBK SNBT 2025', waktu: '08.00 WIB', tempat: 'Lab Komputer 1-4', kategori: 'Akademik' },
   { bulan: 'DES', tanggal: '15', judul: 'Pentas Seni "Bintang Fest 2024"', waktu: '13.00 WIB', tempat: 'Hall Graha Budaya', kategori: 'Seni' },
@@ -10,6 +11,18 @@ const agendaItems = [
 ]
 
 export default function Agenda() {
+  const [items, setItems] = useState(defaultAgendaItems)
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('agenda_items')
+      if (raw) {
+        const parsed = JSON.parse(raw)
+        if (Array.isArray(parsed) && parsed.length) setItems(parsed)
+      }
+    } catch (e) {}
+  }, [])
+
   return (
     <>
       <Header />
@@ -24,7 +37,7 @@ export default function Agenda() {
           </section>
 
           <div className="flex flex-col gap-space-md">
-            {agendaItems.map((a, i) => (
+            {items.map((a, i) => (
               <div key={i} className="flex items-center gap-space-lg p-space-md bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-16 h-16 rounded-lg bg-primary text-on-primary flex flex-col items-center justify-center shrink-0">
                   <span className="font-label-sm text-label-sm font-semibold uppercase leading-none">{a.bulan}</span>

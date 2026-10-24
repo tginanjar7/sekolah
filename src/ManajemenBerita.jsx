@@ -1086,7 +1086,6 @@ export default function ManajemenBerita() {
     { id: 2, label: 'Profil Sekolah', path: '/profil-sekolah', active: true },
     { id: 3, label: 'Berita & Pengumuman', path: '/berita-pengumuman', active: true },
     { id: 4, label: 'Agenda', path: '/agenda', active: true },
-    { id: 5, label: 'Galeri Kegiatan', path: '/galeri-kegiatan', active: true },
     { id: 6, label: 'Unduhan & Edaran', path: '/unduhan-edaran', active: true },
     { id: 7, label: 'Kontak', path: '/kontak', active: true },
   ])
@@ -1116,6 +1115,13 @@ export default function ManajemenBerita() {
     logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBybPP72_nSQilbylVBT_6fG44ExivySQt3uCLJv_tj3AwirU7ywATfBEn_eoGUBvO3PksqRUAZx7qE2oqteQ5gSF9WkqzFOW2ClOJAj1alPQn6sJMQe3zr01giJJMT_vfuoSFoP6QDfLQccxC9kWW9k0XuIF2cxZaFBjl_BCgp_4C34yniiqlJcdegP64d0ZoKv_mgefLtvc6gFTuFC7xBPREFgAllSePdd-eYZyEk1brQuyQrXvkK3Q',
   })
   const [savedMsg, setSavedMsg] = useState('')
+  const [agendaItems, setAgendaItems] = useState([])
+  const [agBulan, setAgBulan] = useState('')
+  const [agTanggal, setAgTanggal] = useState('')
+  const [agJudul, setAgJudul] = useState('')
+  const [agWaktu, setAgWaktu] = useState('')
+  const [agTempat, setAgTempat] = useState('')
+  const [agKategori, setAgKategori] = useState('')
   const [categories, setCategories] = useState(['Prestasi','Pengumuman','Akademik','Ekstrakurikuler','Agenda'])
   const [newCat, setNewCat] = useState('')
   const [tags, setTags] = useState([])
@@ -1302,6 +1308,20 @@ document.querySelectorAll('aside a[data-path]').forEach(function(a){
   }
 })();
 
+// inject agenda sidebar link
+(function(){
+  const nav = document.querySelector('aside nav');
+  if (nav && !document.querySelector('aside a[data-path="agenda-admin"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','agenda-admin');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">event</span><span class="">Agenda Kegiatan</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); if (window.__setAdminView) window.__setAdminView('agenda-admin'); });
+  }
+})();
+
 setTimeout(function(){ window.loadBeritaTable(); }, 300);
 `;
 
@@ -1312,6 +1332,20 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
     window.deleteBerita = deleteBerita
     window.__setAdminView = (v) => setView(v)
     window.__forceView = (v) => setView(v)
+  }, [])
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('agenda_items')
+      if (raw) {
+        const parsed = JSON.parse(raw)
+        if (Array.isArray(parsed)) setAgendaItems(parsed)
+      }
+    } catch (e) {}
+    try {
+      const raw = localStorage.getItem('site_settings')
+      if (raw) setSettings(JSON.parse(raw))
+    } catch (e) {}
   }, [])
 
   useEffect(() => {
@@ -1340,7 +1374,19 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
   function addTag() { if (newTag.trim()) { setTags([...tags, newTag.trim()]); setNewTag('') } }
   function addFile() { if (newFile.trim()) { setFiles([...files, { nama: newFile.trim(), ukuran: 'â€”' }]); setNewFile('') } }
   function addImg() { if (newImg.trim()) { setGaleri([...galeri, newImg.trim()]); setNewImg('') } }
-  function saveSettings() { setSavedMsg('Pengaturan berhasil disimpan (sementara di memori).') }
+  function saveSettings() { localStorage.setItem('site_settings', JSON.stringify(settings)); setSavedMsg('Pengaturan berhasil disimpan.') }
+
+  function pagePath(slug) {
+    const map = {
+      'profil-sekolah': '/profil-sekolah',
+      'berita-pengumuman': '/berita-pengumuman',
+      'agenda': '/agenda',
+      'galeri-kegiatan': '/galeri-kegiatan',
+      'unduhan-edaran': '/unduhan-edaran',
+      'kontak': '/kontak',
+    }
+    return map[slug] || ('/halaman/' + slug)
+  }
 
   const panelClass = 'bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md'
 
@@ -1447,17 +1493,56 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
                   <li key={p.id} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
                     <div className="flex flex-col">
                       <span className="font-body-md text-on-surface font-semibold">{p.judul}</span>
-                      <span className="font-label-sm text-on-surface-variant">/halaman/{p.slug}</span>
+                      <span className="font-label-sm text-on-surface-variant">{pagePath(p.slug)}</span>
                     </div>
                     <div className="flex items-center gap-space-sm">
-                      <a href={'/halaman/' + p.slug} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:underline font-label-sm">Lihat</a>
-                      <button onClick={() => { setEditPageId(p.id); setNewPageJudul(p.judul); setNewPageSlug(p.slug); setNewPageKonten(p.konten) }} className="text-primary hover:underline font-label-sm">Edit</button>
+                      <a href={pagePath(p.slug)} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:underline font-label-sm">Lihat</a>
+                      <button onClick={() => { setEditPageId(p.id); setNewPageJudul(p.judul); setNewPageSlug(p.slug); setNewPageKonten(p.konten); window.open(pagePath(p.slug) + '?edit=1', '_blank') }} className="text-primary hover:underline font-label-sm">Edit</button>
                       <button onClick={() => setPages(pages.filter((x) => x.id !== p.id))} className="text-error hover:underline font-label-sm">Hapus</button>
                     </div>
                   </li>
                 ))}
               </ul>
               <button onClick={() => { localStorage.setItem('site_pages_v2', JSON.stringify(pages)); setMenuSavedMsg('Halaman disimpan.') }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">Simpan Halaman</button>
+              {editPageId && (
+                <div className={panelClass}>
+                  <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">visibility</span> Pratinjau Halaman</h2>
+                  <iframe src={pagePath(pages.find((p) => p.id === editPageId)?.slug || '')} title="preview" className="w-full h-[600px] rounded-lg border border-outline-variant/40 bg-surface-container-lowest" />
+                </div>
+              )}
+            </div>
+          ) : view === 'agenda-admin' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">event</span> Agenda Kegiatan</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                <input value={agBulan} onChange={(e)=>setAgBulan(e.target.value)} placeholder="Bulan (NOV)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <input value={agTanggal} onChange={(e)=>setAgTanggal(e.target.value)} placeholder="Tanggal (25)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <input value={agKategori} onChange={(e)=>setAgKategori(e.target.value)} placeholder="Kategori" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+              </div>
+              <input value={agJudul} onChange={(e)=>setAgJudul(e.target.value)} placeholder="Judul agenda" className="w-full px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+                <input value={agWaktu} onChange={(e)=>setAgWaktu(e.target.value)} placeholder="Waktu (07.30 WIB)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <input value={agTempat} onChange={(e)=>setAgTempat(e.target.value)} placeholder="Tempat" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+              </div>
+              <button onClick={() => {
+                if (!agJudul.trim()) return
+                const item = { bulan: agBulan.trim() || 'JAN', tanggal: agTanggal.trim() || '01', judul: agJudul.trim(), waktu: agWaktu.trim(), tempat: agTempat.trim(), kategori: agKategori.trim() || 'Umum' }
+                const updated = [...agendaItems, item]
+                setAgendaItems(updated)
+                localStorage.setItem('agenda_items', JSON.stringify(updated))
+                setAgBulan(''); setAgTanggal(''); setAgJudul(''); setAgWaktu(''); setAgTempat(''); setAgKategori('')
+              }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">Tambah Agenda</button>
+              <ul className="flex flex-col gap-space-xs">
+                {agendaItems.map((a, i) => (
+                  <li key={i} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                    <div className="flex flex-col">
+                      <span className="font-body-md text-on-surface font-semibold">{a.judul}</span>
+                      <span className="font-label-sm text-on-surface-variant">{a.bulan} {a.tanggal} • {a.waktu} • {a.tempat} • {a.kategori}</span>
+                    </div>
+                    <button onClick={() => { const updated = agendaItems.filter((_,x)=>x!==i); setAgendaItems(updated); localStorage.setItem('agenda_items', JSON.stringify(updated)) }} className="text-error hover:underline font-label-sm">Hapus</button>
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : view === 'menu-navigasi' ? (
             <div className={panelClass}>

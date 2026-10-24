@@ -5,7 +5,6 @@ const defaultMenus = [
   { id: 2, label: 'Profil Sekolah', path: '/profil-sekolah', active: true },
   { id: 3, label: 'Berita & Pengumuman', path: '/berita-pengumuman', active: true },
   { id: 4, label: 'Agenda', path: '/agenda', active: true },
-  { id: 5, label: 'Galeri Kegiatan', path: '/galeri-kegiatan', active: true },
   { id: 6, label: 'Unduhan & Edaran', path: '/unduhan-edaran', active: true },
   { id: 7, label: 'Kontak', path: '/kontak', active: true },
 ]

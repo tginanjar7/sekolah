@@ -1,5 +1,7 @@
-﻿import Header from './components/Header.jsx'
+﻿import { useEffect, useRef, useState } from 'react'
+import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
+import { supabase } from './supabaseClient.js'
 
 const identitas = [
   { label: 'Nama Sekolah', value: 'SMP Negeri 1 Cipeundeuy' },
@@ -45,11 +47,59 @@ const prestasi = [
 ]
 
 export default function ProfilSekolah() {
+  const [savedHtml, setSavedHtml] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data && data.session) {
+        setIsAdmin(true)
+        if (new URLSearchParams(window.location.search).get('edit') === '1') {
+          setEditMode(true)
+        }
+      }
+    })
+    const raw = localStorage.getItem('profil_sekolah_html')
+    if (raw) setSavedHtml(raw)
+  }, [])
+
+  function handleSave() {
+    if (contentRef.current) {
+      const html = contentRef.current.innerHTML
+      localStorage.setItem('profil_sekolah_html', html)
+      setSavedHtml(html)
+      setEditMode(false)
+    }
+  }
+
+  const controls = isAdmin ? (
+    <div className="fixed bottom-4 right-4 z-50 flex gap-2">
+      {!editMode && <button onClick={() => setEditMode(true)} className="px-4 py-2 bg-primary text-on-primary rounded-lg shadow">Edit</button>}
+      {editMode && <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 text-on-primary rounded-lg shadow">Simpan</button>}
+      {editMode && <button onClick={() => { setEditMode(false); window.location.reload() }} className="px-4 py-2 bg-surface-container text-on-surface rounded-lg shadow">Batal</button>}
+    </div>
+  ) : null
+
+  if (savedHtml && !editMode) {
+    return (
+      <>
+        <Header />
+        <main className="w-full pt-28 bg-background min-h-screen">
+          <div className="max-w-7xl mx-auto w-full px-gutter py-space-xl flex flex-col gap-space-xl" dangerouslySetInnerHTML={{ __html: savedHtml }} />
+        </main>
+        <Footer />
+        {controls}
+      </>
+    )
+  }
+
   return (
     <>
       <Header />
       <main className="w-full pt-28 bg-background min-h-screen">
-        <div className="max-w-7xl mx-auto w-full px-gutter py-space-xl flex flex-col gap-space-xl">
+        <div ref={contentRef} contentEditable={isAdmin && editMode} suppressContentEditableWarning className="max-w-7xl mx-auto w-full px-gutter py-space-xl flex flex-col gap-space-xl outline-none">
           {/* Hero */}
           <section className="bg-primary text-on-primary rounded-2xl p-space-xl shadow-lg relative overflow-hidden">
             <div className="absolute -right-16 -top-16 w-64 h-64 bg-primary-container rounded-full blur-3xl opacity-40 pointer-events-none"></div>
@@ -222,6 +272,7 @@ export default function ProfilSekolah() {
           </section>
         </div>
       </main>
+      {controls}
       <Footer />
     </>
   )
