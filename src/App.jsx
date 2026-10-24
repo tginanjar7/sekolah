@@ -10,6 +10,7 @@ import BeritaPengumuman from './BeritaPengumuman.jsx'
 import Agenda from './Agenda.jsx'
 import GaleriKegiatan from './GaleriKegiatan.jsx'
 import UnduhanEdaran from './UnduhanEdaran.jsx'
+import Kontak from './Kontak.jsx'
 import rawPublicHtml from '../desain/portal_berita_dan_informasi_sekolah/code.html?raw'
 
 const publicScriptMatch = rawPublicHtml.match(/<script>\s*\(function\(\)[\s\S]*?<\/script>/)
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/galeri-kegiatan" element={<GaleriKegiatan />} />
         <Route path="/unduhan-edaran" element={<UnduhanEdaran />} />
+        <Route path="/kontak" element={<Kontak />} />
         <Route path="/manajemen-berita" element={<ManajemenBerita />} />
       </Routes>
     </BrowserRouter>
