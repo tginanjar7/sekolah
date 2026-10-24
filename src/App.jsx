@@ -7,6 +7,7 @@ import Footer from './components/Footer.jsx'
 import ManajemenBerita from './ManajemenBerita.jsx'
 import ProfilSekolah from './ProfilSekolah.jsx'
 import BeritaPengumuman from './BeritaPengumuman.jsx'
+import BeritaDetail from './BeritaDetail.jsx'
 import Agenda from './Agenda.jsx'
 import GaleriKegiatan from './GaleriKegiatan.jsx'
 import UnduhanEdaran from './UnduhanEdaran.jsx'
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/" element={<PublicPage />} />
         <Route path="/profil-sekolah" element={<ProfilSekolah />} />
         <Route path="/berita-pengumuman" element={<BeritaPengumuman />} />
+        <Route path="/berita/:id" element={<BeritaDetail />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/galeri-kegiatan" element={<GaleriKegiatan />} />
         <Route path="/unduhan-edaran" element={<UnduhanEdaran />} />

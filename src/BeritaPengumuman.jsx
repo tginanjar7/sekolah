@@ -1,6 +1,7 @@
 ﻿import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import { berita } from './data.jsx'
+import { Link } from 'react-router-dom'
 
 export default function BeritaPengumuman() {
   const items = berita.filter((b) => b.status === 'terbit')
@@ -32,9 +33,9 @@ export default function BeritaPengumuman() {
                   <h3 className="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">{b.judul}</h3>
                   <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">{b.ringkasan}</p>
                   <div className="mt-auto pt-space-md">
-                    <a href="/berita-pengumuman" className="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1">
+                    <Link to={"/berita/" + b.id} className="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1">
                       Baca Selengkapnya <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </article>
