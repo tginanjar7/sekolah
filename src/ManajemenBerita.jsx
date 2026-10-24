@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { getAllBerita, addBerita, updateBerita, deleteBerita } from './supabaseClient.js'
 import AdminHeader from './AdminHeader.jsx'
 import Sidebar from './Sidebar.jsx'
 
@@ -1078,11 +1079,164 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 </script></main>`
 
 export default function ManajemenBerita() {
+  // expose supabase helpers globally for the injected admin script
+  useEffect(() => {
+    window.getAllBerita = getAllBerita
+    window.addBerita = addBerita
+    window.updateBerita = updateBerita
+    window.deleteBerita = deleteBerita
+    window.__editingId = null
+    window.__deleteId = null
+  }, [])
+
   const scriptMatch = mainHtml.match(/<script>([\s\S]*?)<\/script>/)
   const rawScript = scriptMatch ? scriptMatch[1] : ''
-  const extraActive = `\ndocument.querySelectorAll('aside a[data-path]').forEach(function(a){ if (a.getAttribute('aria-current') === 'page' || a.getAttribute('data-path') === 'portal-berita') return; a.addEventListener('click', function(e){ e.preventDefault(); if (typeof showToast === 'function') showToast('Modul ' + (a.querySelector('span:last-child') ? a.querySelector('span:last-child').innerText.trim() : a.getAttribute('data-path')) + ' segera tersedia.', 'info'); }); });\n`;
-  const scriptText = rawScript.replace(/\blet\s+targetedDeleteId\b/, 'var targetedDeleteId') + extraActive
-  const cleanHtml = mainHtml.replace(/<script>[\s\S]*?<\/script>/, '')
+  const scriptText = rawScript.replace(/\blet\s+targetedDeleteId\b/, 'var targetedDeleteId')
+
+  const adapterScript = `
+window.__editingId = null;
+window.__deleteId = null;
+
+function renderRow(r) {
+  const id = r.id;
+  const statusLabel = r.status === 'terbit' ? 'Terbit' : r.status === 'arsip' ? 'Arsip' : 'Draf';
+  const statusClass = r.status === 'terbit' ? 'bg-emerald-100 text-emerald-800' : r.status === 'arsip' ? 'bg-surface-container text-on-surface-variant' : 'bg-amber-50 text-amber-800';
+  const statusDot = r.status === 'terbit' ? 'bg-emerald-600' : r.status === 'arsip' ? 'bg-outline' : 'bg-amber-500';
+  const pinned = !!r.adalah_utama;
+  const title = (r.judul||'').replace(/</g,'&lt;');
+  const summary = (r.ringkasan||'').replace(/</g,'&lt;');
+  const cat = (r.kategori||'-').replace(/</g,'&lt;');
+  const dateStr = r.tanggal_publikasi ? new Date(r.tanggal_publikasi).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}) : '-';
+  const timeStr = r.tanggal_publikasi ? new Date(r.tanggal_publikasi).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB' : '';
+  const img = r.gambar_sampul || '';
+  return '<tr class="hover:bg-surface-container-low/60 transition-colors group" data-id="'+id+'">' +
+    '<td class="py-3.5 pl-4 pr-2 text-center"><input class="row-checkbox w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer align-middle" onchange="checkSelectedCount()" type="checkbox"></td>' +
+    '<td class="py-3.5 px-2 text-center"><button class="text-'+(pinned?'tertiary':'outline-variant')+' hover:scale-110 transition-transform" onclick="togglePinStatus(this)" title="Sematkan"><span class="material-symbols-outlined text-[20px]'+(pinned?' text-amber-500':'')+'" style="font-variation-settings: '+(pinned?"'FILL' 1":"'FILL' 0")+';">star</span></button></td>' +
+    '<td class="py-3.5 px-3"><div class="relative w-20 h-14 rounded-lg overflow-hidden bg-surface-container shadow-xs">'+(img?'<img alt="Sampul" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="'+img+'">':'')+'</div></td>' +
+    '<td class="py-3.5 px-4"><div class="flex flex-col gap-0.5"><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-primary font-bold">#'+id.slice(0,8)+'</span>'+(pinned?'<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-tertiary-fixed text-on-tertiary-fixed">PINNED</span>':'')+'</div><a class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors font-semibold leading-tight line-clamp-1" href="#">'+title+'</a><p class="text-on-surface-variant font-body-sm text-body-sm line-clamp-1">'+summary+'</p><div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]"><span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Tim Humas</span></div></div></td>' +
+    '<td class="py-3.5 px-3"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-md font-label-md bg-primary/10 text-primary font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>'+cat+'</span></td>' +
+    '<td class="py-3.5 px-3">'+(r.berkas_lampiran?'<div class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container rounded-lg text-on-surface-variant text-[12px]"><span class="material-symbols-outlined text-[16px] text-error">picture_as_pdf</span><span class="truncate max-w-[120px] font-medium">'+r.berkas_lampiran+'</span></div>':'<span class="text-on-surface-variant/70 text-[12px] italic">Tidak ada berkas</span>')+'</td>' +
+    '<td class="py-3.5 px-3 text-on-surface-variant"><div class="flex flex-col"><span class="font-semibold text-on-surface text-[13px]">'+dateStr+'</span><span class="text-[11px] text-on-surface-variant">'+timeStr+'</span></div></td>' +
+    '<td class="py-3.5 px-3 text-center"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm '+statusClass+' font-bold"><span class="w-1.5 h-1.5 rounded-full '+statusDot+'"></span>'+statusLabel+'</span></td>' +
+    '<td class="py-3.5 px-3 text-right"><div class="flex flex-col items-end"><span class="font-bold text-on-surface text-[14px]">0</span><span class="text-[11px] text-on-surface-variant">tayangan</span></div></td>' +
+    '<td class="py-3.5 pl-3 pr-4 text-center"><div class="flex items-center justify-center gap-1">' +
+      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openArticleModal(\'edit\', \''+id+'\')" title="Edit Artikel"><span class="material-symbols-outlined text-[18px]">edit_square</span></button>' +
+      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" onclick="confirmDeleteRow(\''+id+'\', \''+(r.judul||'').replace(/'/g,"\\\\'")+'\')" title="Hapus Berita"><span class="material-symbols-outlined text-[18px]">delete</span></button>' +
+    '</div></td></tr>';
+}
+
+window.loadBeritaTable = async function() {
+  const tbody = document.getElementById('news-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="10" class="py-6 text-center text-on-surface-variant">Memuat data...</td></tr>';
+  try {
+    const rows = await window.getAllBerita();
+    if (!rows || rows.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="10" class="py-6 text-center text-on-surface-variant">Belum ada data berita.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(renderRow).join('');
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="10" class="py-6 text-center text-error">Gagal memuat data: ' + (e.message||e) + '</td></tr>';
+  }
+};
+
+window.__editingId = null;
+
+const _origOpen = window.openArticleModal;
+window.openArticleModal = function(mode, articleId) {
+  window.__editingId = (mode === 'edit') ? articleId : null;
+  if (typeof _origOpen === 'function') _origOpen(mode, articleId);
+};
+
+function buildPayload(statusOverride) {
+  const title = (document.getElementById('form-title').value || '').trim();
+  if (!title) { showToast('Judul wajib diisi.', 'error'); return null; }
+  const category = document.getElementById('form-category').value;
+  const statusSel = statusOverride || document.getElementById('form-status').value;
+  const status = statusSel === 'Draf' ? 'draf' : statusSel === 'Arsip' ? 'arsip' : 'terbit';
+  const dateVal = document.getElementById('form-date').value;
+  const summary = document.getElementById('form-summary').value;
+  const contentEl = document.querySelector('#article-modal textarea:not(#form-summary)');
+  const konten = contentEl ? contentEl.value : summary;
+  const pinned = document.getElementById('form-is-pinned').checked;
+  return {
+    judul: title,
+    ringkasan: summary || title,
+    konten: konten || summary || title,
+    gambar_sampul: null,
+    berkas_lampiran: null,
+    kategori: category,
+    tanggal_publikasi: dateVal ? new Date(dateVal).toISOString() : new Date().toISOString(),
+    status: status,
+    adalah_utama: pinned,
+  };
+}
+
+window.saveArticleDraft = async function() {
+  const payload = buildPayload('draf');
+  if (!payload) return;
+  try {
+    if (window.__editingId) { await window.updateBerita(window.__editingId, payload); }
+    else { await window.addBerita(payload); }
+    closeArticleModal();
+    showToast('Draf berita berhasil disimpan.', 'drafts');
+    window.__editingId = null;
+    await window.loadBeritaTable();
+  } catch (e) { showToast('Gagal menyimpan: ' + (e.message||e), 'error'); }
+};
+
+window.publishArticleSubmit = async function() {
+  const payload = buildPayload('terbit');
+  if (!payload) return;
+  try {
+    if (window.__editingId) { await window.updateBerita(window.__editingId, payload); }
+    else { await window.addBerita(payload); }
+    closeArticleModal();
+    showToast('Berita berhasil diterbitkan.', 'verified');
+    window.__editingId = null;
+    await window.loadBeritaTable();
+  } catch (e) { showToast('Gagal menyimpan: ' + (e.message||e), 'error'); }
+};
+
+window.__deleteId = null;
+const _origConfirmDelete = window.confirmDeleteRow;
+window.confirmDeleteRow = function(id, title) {
+  window.__deleteId = id;
+  if (typeof _origConfirmDelete === 'function') _origConfirmDelete(id, title);
+};
+window.executeDeleteRow = async function() {
+  try {
+    if (window.__deleteId) await window.deleteBerita(window.__deleteId);
+    closeDeleteModal();
+    showToast('Berita berhasil dihapus.', 'delete');
+    await window.loadBeritaTable();
+  } catch (e) { showToast('Gagal menghapus: ' + (e.message||e), 'error'); }
+};
+
+window.togglePinStatus = async function(btn) {
+  const icon = btn.querySelector('.material-symbols-outlined');
+  const row = btn.closest('tr');
+  const id = row ? row.getAttribute('data-id') : null;
+  if (!id) return;
+  const currentlyPinned = icon.classList.contains('text-amber-500');
+  const newPinned = !currentlyPinned;
+  try {
+    await window.updateBerita(id, { adalah_utama: newPinned });
+    if (newPinned) { icon.classList.remove('text-outline-variant'); icon.classList.add('text-amber-500'); icon.style.fontVariationSettings = "'FILL' 1"; showToast('Disematkan sebagai Berita Utama!', 'star'); }
+    else { icon.classList.remove('text-amber-500'); icon.classList.add('text-outline-variant'); icon.style.fontVariationSettings = "'FILL' 0"; showToast('Status sematan dicabut.', 'star_border'); }
+    await window.loadBeritaTable();
+  } catch (e) { showToast('Gagal: ' + (e.message||e), 'error'); }
+};
+
+// sidebar menu activation
+document.querySelectorAll('aside a[data-path]').forEach(function(a){
+  if (a.getAttribute('aria-current') === 'page' || a.getAttribute('data-path') === 'portal-berita') return;
+  a.addEventListener('click', function(e){ e.preventDefault(); if (typeof showToast === 'function') showToast('Modul ' + (a.querySelector('span:last-child') ? a.querySelector('span:last-child').innerText.trim() : a.getAttribute('data-path')) + ' segera tersedia.', 'info'); });
+});
+
+setTimeout(function(){ window.loadBeritaTable(); }, 300);
+`;
 
   useEffect(() => {
     document.querySelectorAll('script[data-admin-script="true"]').forEach((el) => el.remove())
@@ -1092,7 +1246,16 @@ export default function ManajemenBerita() {
       s.textContent = scriptText
       document.body.appendChild(s)
     }
+    if (adapterScript) {
+      const s2 = document.createElement('script')
+      s2.setAttribute('data-admin-adapter', 'true')
+      document.querySelectorAll('script[data-admin-adapter="true"]').forEach((el) => el.remove())
+      s2.textContent = adapterScript
+      document.body.appendChild(s2)
+    }
   }, [])
+
+  const cleanHtml = mainHtml.replace(/<script>[\s\S]*?<\/script>/, '')
 
   return (
     <>
