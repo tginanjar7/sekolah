@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 export default function Content() {
   const html = `<!-- MAIN CONTAINER (12-COLUMN EDITORIAL MOSAIC) -->
 <div class="max-w-7xl mx-auto w-full px-gutter py-space-xl flex flex-col gap-space-xl">
@@ -11,7 +11,7 @@ export default function Content() {
 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent lg:hidden"></div>
 <div class="absolute top-4 left-4 flex items-center gap-space-xs bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md font-bold px-space-md py-1 rounded-full shadow-md uppercase tracking-wider">
 <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">push_pin</span>
-<span class="">Berita Utama • Pinned</span>
+<span class="">Berita Utama â€¢ Pinned</span>
 </div>
 <div class="absolute bottom-4 left-4 right-4 text-on-primary lg:hidden">
 <span class="bg-secondary px-2 py-0.5 rounded text-label-sm font-label-sm text-on-secondary uppercase">Prestasi Siswa</span>
@@ -45,7 +45,7 @@ export default function Content() {
 </div>
 <div class="flex flex-col min-w-0">
 <span class="font-label-lg text-label-lg text-on-surface font-semibold truncate">SK-Pemenang-OSN-2024-SMPN1-Cipeundeuy.pdf</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Dokumen Resmi Humas • 1.4 MB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Dokumen Resmi Humas â€¢ 1.4 MB</span>
 </div>
 </div>
 <a class="bg-surface-container hover:bg-surface-variant text-primary px-3 py-1.5 rounded font-label-md text-label-md font-bold flex items-center gap-1 shrink-0 transition-colors" href="#">
@@ -56,7 +56,7 @@ export default function Content() {
 </div>
 <!-- Bottom Actions -->
 <div class="pt-space-lg flex flex-wrap items-center justify-between gap-space-md">
-<a class="bg-primary hover:bg-secondary text-on-primary font-label-lg text-label-lg font-bold px-space-lg py-2.5 rounded-lg transition-colors flex items-center gap-space-xs shadow-sm" href="#">
+<a class="bg-primary hover:bg-secondary text-on-primary font-label-lg text-label-lg font-bold px-space-lg py-2.5 rounded-lg transition-colors flex items-center gap-space-xs shadow-sm" href="/berita-pengumuman">
 <span class="">Baca Selengkapnya</span>
 <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
 </a>
@@ -129,7 +129,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">14 November 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Wakasek Kurikulum</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">
@@ -150,7 +150,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Rincian Tata Tertib</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -169,7 +169,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">10 November 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Kepala Sekolah</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">
@@ -189,7 +189,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Lihat Undangan</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -208,7 +208,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">05 November 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Pembina Robotik</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">Tim Robotik SMPN 1 Cipeundeuy Juara 1 Nusantara STEM Innovation Expo di Surabaya</h4>
@@ -226,7 +226,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Ulasan Kemenangan</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -245,7 +245,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">01 November 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Koordinator Beasiswa</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">
@@ -263,7 +263,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Kisah Inspirasi</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -282,7 +282,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">28 Oktober 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Panitia Proyek P5</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">
@@ -302,7 +302,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Panduan Kunjungan</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -321,7 +321,7 @@ export default function Content() {
 <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[14px]">event</span>
 <span class="">20 Oktober 2024</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Sekretariat PPDB</span>
 </div>
 <h4 class="font-headline-sm text-headline-sm text-on-surface hover:text-primary transition-colors cursor-pointer mt-1">
@@ -341,7 +341,7 @@ export default function Content() {
 <a class="text-primary hover:text-secondary text-[18px]" href="#"><span class="material-symbols-outlined">download</span></a>
 </div>
 <div class="flex items-center justify-between pt-2">
-<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="#">
+<a class="text-primary hover:text-secondary font-label-md text-label-md font-bold flex items-center gap-1" href="/berita-pengumuman">
 <span class="">Buka Portal Pendaftaran</span>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </a>
@@ -436,7 +436,7 @@ export default function Content() {
 <span class="material-symbols-outlined text-error">picture_as_pdf</span>
 <div class="flex flex-col min-w-0">
 <span class="font-label-md text-label-md font-semibold text-on-surface truncate group-hover:text-primary">Surat Edaran No. 142/Disdik-DKI</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Libur Semester Ganjil • 420 KB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Libur Semester Ganjil â€¢ 420 KB</span>
 </div>
 </div>
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]">download</span>
@@ -446,7 +446,7 @@ export default function Content() {
 <span class="material-symbols-outlined text-error">picture_as_pdf</span>
 <div class="flex flex-col min-w-0">
 <span class="font-label-md text-label-md font-semibold text-on-surface truncate group-hover:text-primary">Kalender Akademik 2024/2025</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Revisi Terkini • 1.2 MB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Revisi Terkini â€¢ 1.2 MB</span>
 </div>
 </div>
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]">download</span>
@@ -456,7 +456,7 @@ export default function Content() {
 <span class="material-symbols-outlined text-error">picture_as_pdf</span>
 <div class="flex flex-col min-w-0">
 <span class="font-label-md text-label-md font-semibold text-on-surface truncate group-hover:text-primary">Formulir Bebas Pinjam Perpustakaan</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Dokumen Siswa XII • 180 KB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Dokumen Siswa XII â€¢ 180 KB</span>
 </div>
 </div>
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]">download</span>
@@ -466,7 +466,7 @@ export default function Content() {
 <span class="material-symbols-outlined text-error">picture_as_pdf</span>
 <div class="flex flex-col min-w-0">
 <span class="font-label-md text-label-md font-semibold text-on-surface truncate group-hover:text-primary">Struktur Kurikulum Merdeka Fase E-F</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Panduan Mata Pelajaran • 2.8 MB</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Panduan Mata Pelajaran â€¢ 2.8 MB</span>
 </div>
 </div>
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]">download</span>
