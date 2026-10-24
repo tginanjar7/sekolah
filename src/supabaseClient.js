@@ -28,3 +28,10 @@ export async function deleteBerita(id) {
   if (error) throw error
   return true
 }
+
+
+export async function addPesan(payload) {
+  const { data, error } = await supabase.from('pesan').insert([payload]).select()
+  if (error) throw error
+  return data
+}
