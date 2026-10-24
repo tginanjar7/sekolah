@@ -1081,28 +1081,24 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 export default function ManajemenBerita() {
   const [view, setView] = useState('berita')
 
-  useEffect(() => { if (view === 'berita' || view === 'dashboard-overview' || view === 'log-aktivitas') { setTimeout(() => { if (window.loadBeritaTable) window.loadBeritaTable() }, 200) } }, [view])
-
-  // expose helpers + view setter globally for injected sidebar
-  useEffect(() => {
-    window.getAllBerita = getAllBerita
-    window.addBerita = addBerita
-    window.updateBerita = updateBerita
-    window.deleteBerita = deleteBerita
-    window.__editingId = null
-    window.__deleteId = null
-    window.__setAdminView = (v) => setView(v)
-  }, [])
-
-  // state for panels
-  const [categories, setCategories] = useState(['Prestasi', 'Pengumuman', 'Akademik', 'Ekstrakurikuler', 'Agenda'])
-  const [tags, setTags] = useState(['OSN', 'PPDB', 'Kurikulum', 'P5', 'Prestasi'])
-  const [newCat, setNewCat] = useState('')
-  const [newTag, setNewTag] = useState('')
-
-  const [files, setFiles] = useState([
-    { nama: 'SK_Pemenang_OSN_2024.pdf', ukuran: '1.4 MB' },
-    { nama: 'SE_ASAS_2024.pdf', ukuran: '420 KB' },
+  const [menus, setMenus] = useState([
+    { id: 1, label: 'Beranda', path: '/', active: true },
+    { id: 2, label: 'Profil Sekolah', path: '/profil-sekolah', active: true },
+    { id: 3, label: 'Berita & Pengumuman', path: '/berita-pengumuman', active: true },
+    { id: 4, label: 'Agenda', path: '/agenda', active: true },
+    { id: 5, label: 'Galeri Kegiatan', path: '/galeri-kegiatan', active: true },
+    { id: 6, label: 'Unduhan & Edaran', path: '/unduhan-edaran', active: true },
+    { id: 7, label: 'Kontak', path: '/kontak', active: true },
+  ])
+  const [newMenuLabel, setNewMenuLabel] = useState('')
+  const [newMenuPath, setNewMenuPath] = useState('')
+  const [pages, setPages] = useState([
+    { id: 1, judul: 'Profil Sekolah', slug: 'profil-sekolah', konten: '' },
+    { id: 2, judul: 'Berita dan Pengumuman', slug: 'berita-pengumuman', konten: '' },
+    { id: 3, judul: 'Agenda', slug: 'agenda', konten: '' },
+    { id: 4, judul: 'Galeri Kegiatan', slug: 'galeri-kegiatan', konten: '' },
+    { id: 5, judul: 'Unduhan dan Edaran', slug: 'unduhan-edaran', konten: '' },
+    { id: 6, judul: 'Kontak', slug: 'kontak', konten: '' },
   ])
   const [newFile, setNewFile] = useState('')
 
@@ -1120,6 +1116,16 @@ export default function ManajemenBerita() {
     logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBybPP72_nSQilbylVBT_6fG44ExivySQt3uCLJv_tj3AwirU7ywATfBEn_eoGUBvO3PksqRUAZx7qE2oqteQ5gSF9WkqzFOW2ClOJAj1alPQn6sJMQe3zr01giJJMT_vfuoSFoP6QDfLQccxC9kWW9k0XuIF2cxZaFBjl_BCgp_4C34yniiqlJcdegP64d0ZoKv_mgefLtvc6gFTuFC7xBPREFgAllSePdd-eYZyEk1brQuyQrXvkK3Q',
   })
   const [savedMsg, setSavedMsg] = useState('')
+  const [categories, setCategories] = useState(['Prestasi','Pengumuman','Akademik','Ekstrakurikuler','Agenda'])
+  const [newCat, setNewCat] = useState('')
+  const [tags, setTags] = useState([])
+  const [newTag, setNewTag] = useState('')
+  const [files, setFiles] = useState([])
+  const [newPageJudul, setNewPageJudul] = useState('')
+  const [newPageSlug, setNewPageSlug] = useState('')
+  const [newPageKonten, setNewPageKonten] = useState('')
+  const [editPageId, setEditPageId] = useState(null)
+  const [menuSavedMsg, setMenuSavedMsg] = useState('')
 
   const scriptMatch = mainHtml.match(/<script>([\s\S]*?)<\/script>/)
   const rawScript = scriptMatch ? scriptMatch[1] : ''
@@ -1268,8 +1274,45 @@ document.querySelectorAll('aside a[data-path]').forEach(function(a){
   });
 });
 
+// inject menu-navigasi sidebar link
+(function(){
+  const nav = document.querySelector('aside nav');
+  if (nav && !document.querySelector('aside a[data-path="menu-navigasi"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','menu-navigasi');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">menu</span><span class="">Menu Navigasi</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); console.log('Menu Navigasi clicked, setView available:', !!window.__setAdminView); if (window.__setAdminView) window.__setAdminView('menu-navigasi'); });
+  }
+})();
+
+// inject halaman sidebar link
+(function(){
+  const nav = document.querySelector('aside nav');
+  if (nav && !document.querySelector('aside a[data-path="halaman"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','halaman');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">article</span><span class="">Halaman</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); if (window.__setAdminView) window.__setAdminView('halaman'); });
+  }
+})();
+
 setTimeout(function(){ window.loadBeritaTable(); }, 300);
 `;
+
+  useEffect(() => {
+    window.getAllBerita = getAllBerita
+    window.addBerita = addBerita
+    window.updateBerita = updateBerita
+    window.deleteBerita = deleteBerita
+    window.__setAdminView = (v) => setView(v)
+    window.__forceView = (v) => setView(v)
+  }, [])
 
   useEffect(() => {
     document.querySelectorAll('script[data-admin-script="true"]').forEach((el) => el.remove())
@@ -1380,6 +1423,68 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
                   </div>
                 ))}
               </div>
+            </div>
+          ) : view === 'halaman' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">article</span> Manajemen Halaman</h2>
+              <div className="flex flex-col gap-space-sm">
+                <input value={newPageJudul} onChange={(e)=>setNewPageJudul(e.target.value)} placeholder="Judul halaman" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <input value={newPageSlug} onChange={(e)=>setNewPageSlug(e.target.value)} placeholder="Slug (mis. profil-sekolah)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <textarea value={newPageKonten} onChange={(e)=>setNewPageKonten(e.target.value)} placeholder="Konten halaman" rows="4" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md resize-none" />
+                <button onClick={() => {
+                  if (!newPageJudul.trim() || !newPageSlug.trim()) return
+                  if (editPageId) {
+                    setPages(pages.map((p) => p.id === editPageId ? { ...p, judul: newPageJudul.trim(), slug: newPageSlug.trim(), konten: newPageKonten } : p))
+                    setEditPageId(null)
+                  } else {
+                    setPages([...pages, { id: Date.now(), judul: newPageJudul.trim(), slug: newPageSlug.trim(), konten: newPageKonten }])
+                  }
+                  setNewPageJudul(''); setNewPageSlug(''); setNewPageKonten('')
+                }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">{editPageId ? 'Simpan Perubahan' : 'Tambah Halaman'}</button>
+              </div>
+              <ul className="flex flex-col gap-space-xs">
+                {pages.map((p) => (
+                  <li key={p.id} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                    <div className="flex flex-col">
+                      <span className="font-body-md text-on-surface font-semibold">{p.judul}</span>
+                      <span className="font-label-sm text-on-surface-variant">/halaman/{p.slug}</span>
+                    </div>
+                    <div className="flex items-center gap-space-sm">
+                      <a href={'/halaman/' + p.slug} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:underline font-label-sm">Lihat</a>
+                      <button onClick={() => { setEditPageId(p.id); setNewPageJudul(p.judul); setNewPageSlug(p.slug); setNewPageKonten(p.konten) }} className="text-primary hover:underline font-label-sm">Edit</button>
+                      <button onClick={() => setPages(pages.filter((x) => x.id !== p.id))} className="text-error hover:underline font-label-sm">Hapus</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => { localStorage.setItem('site_pages_v2', JSON.stringify(pages)); setMenuSavedMsg('Halaman disimpan.') }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">Simpan Halaman</button>
+            </div>
+          ) : view === 'menu-navigasi' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">menu</span> Pengaturan Menu Navigasi</h2>
+              <div className="flex gap-space-sm">
+                <input value={newMenuLabel} onChange={(e)=>setNewMenuLabel(e.target.value)} placeholder="Label menu" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <input value={newMenuPath} onChange={(e)=>setNewMenuPath(e.target.value)} placeholder="Path (mis. /halaman)" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <button onClick={() => { if (newMenuLabel.trim() && newMenuPath.trim()) { setMenus([...menus, { id: Date.now(), label: newMenuLabel.trim(), path: newMenuPath.trim(), active: true }]); setNewMenuLabel(''); setNewMenuPath('') } }} className="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-lg">Tambah</button>
+              </div>
+              <ul className="flex flex-col gap-space-xs">
+                {menus.map((m) => (
+                  <li key={m.id} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                    <div className="flex items-center gap-space-sm">
+                      <span className={"w-2 h-2 rounded-full " + (m.active ? 'bg-emerald-500' : 'bg-outline')}></span>
+                      <a href={m.path} className="font-body-md text-primary hover:underline font-semibold">{m.label}</a>
+                      <span className="font-label-sm text-on-surface-variant">{m.path}</span>
+                    </div>
+                    <div className="flex items-center gap-space-sm">
+                      <button onClick={() => setMenus(menus.map((x) => x.id === m.id ? { ...x, active: !x.active } : x))} className="text-primary hover:underline font-label-sm">{m.active ? 'Nonaktifkan' : 'Aktifkan'}</button>
+                      <button onClick={() => { const l = prompt('Label baru:', m.label); if (l) setMenus(menus.map((x) => x.id === m.id ? { ...x, label: l } : x)) }} className="text-on-surface-variant hover:underline font-label-sm">Edit</button>
+                      <button onClick={() => setMenus(menus.filter((x) => x.id !== m.id))} className="text-error hover:underline font-label-sm">Hapus</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => { localStorage.setItem('site_menus', JSON.stringify(menus)); setMenuSavedMsg('Menu navigasi berhasil disimpan.') }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">Simpan Menu</button>
+              {menuSavedMsg && <div className="p-space-sm rounded-lg bg-emerald-50 text-emerald-800 font-body-sm">{menuSavedMsg}</div>}
             </div>
           ) : view === 'pengaturan-web' ? (
             <div className={panelClass}>

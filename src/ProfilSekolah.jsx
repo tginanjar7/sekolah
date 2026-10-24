@@ -1,4 +1,4 @@
-import Header from './components/Header.jsx'
+﻿import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 
 const identitas = [
@@ -144,7 +144,7 @@ export default function ProfilSekolah() {
             </div>
           </section>
 
-          {/* Struktur Organisasi */}
+                      {/* Struktur Organisasi */}
           <section className="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
             <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm">
               <span className="material-symbols-outlined text-primary">account_tree</span> Struktur Organisasi

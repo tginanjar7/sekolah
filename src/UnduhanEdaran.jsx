@@ -1,13 +1,13 @@
-import Header from './components/Header.jsx'
+﻿import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 
 const unduhan = [
-  { judul: 'Surat Edaran No. 142/Disdik-DKI', keterangan: 'Libur Semester Ganjil • 420 KB', icon: 'picture_as_pdf' },
-  { judul: 'Kalender Akademik 2024/2025', keterangan: 'Revisi Terkini • 1.2 MB', icon: 'picture_as_pdf' },
-  { judul: 'Formulir Bebas Pinjam Perpustakaan', keterangan: 'Dokumen Siswa XII • 180 KB', icon: 'description' },
-  { judul: 'Struktur Kurikulum Merdeka Fase E-F', keterangan: 'Panduan Mata Pelajaran • 2.8 MB', icon: 'picture_as_pdf' },
-  { judul: 'Juknis PPDB 2025', keterangan: 'Panduan Pendaftaran • 1.5 MB', icon: 'picture_as_pdf' },
-  { judul: 'Formulir Pendaftaran Ekstrakurikuler', keterangan: 'Dokumen Siswa • 220 KB', icon: 'description' },
+  { judul: 'Surat Edaran No. 142/Disdik-DKI', keterangan: 'Libur Semester Ganjil â€¢ 420 KB', icon: 'picture_as_pdf' },
+  { judul: 'Kalender Akademik 2024/2025', keterangan: 'Revisi Terkini â€¢ 1.2 MB', icon: 'picture_as_pdf' },
+  { judul: 'Formulir Bebas Pinjam Perpustakaan', keterangan: 'Dokumen Siswa XII â€¢ 180 KB', icon: 'description' },
+  { judul: 'Struktur Kurikulum Merdeka Fase E-F', keterangan: 'Panduan Mata Pelajaran â€¢ 2.8 MB', icon: 'picture_as_pdf' },
+  { judul: 'Juknis PPDB 2025', keterangan: 'Panduan Pendaftaran â€¢ 1.5 MB', icon: 'picture_as_pdf' },
+  { judul: 'Formulir Pendaftaran Ekstrakurikuler', keterangan: 'Dokumen Siswa â€¢ 220 KB', icon: 'description' },
 ]
 
 export default function UnduhanEdaran() {
