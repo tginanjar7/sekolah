@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { getAllBerita, addBerita, updateBerita, deleteBerita } from './supabaseClient.js'
 import AdminHeader from './AdminHeader.jsx'
 import Sidebar from './Sidebar.jsx'
@@ -11,7 +11,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-primary font-bold">
 <span class="material-symbols-outlined text-[14px]">auto_stories</span> CMS Humas &amp; Publikasi
         </span>
-<span class="text-outline-variant">•</span>
+<span class="text-outline-variant">â€¢</span>
 <span class="font-label-sm text-label-sm text-on-surface-variant">Tahun Ajaran 2024/2025</span>
 </div>
 <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Manajemen Berita &amp; Pengumuman Sekolah</h1>
@@ -95,7 +95,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 </div>
 <div class="flex items-center gap-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
 <span class="font-semibold text-amber-900">18 Draf</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="font-semibold text-primary">6 Otomatis</span>
 </div>
 </div>
@@ -269,7 +269,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
                 </p>
 <div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]">
 <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Dra. Nurul Hidayati</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Bacaan 4 mnt</span>
 </div>
 </div>
@@ -347,7 +347,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
                 </p>
 <div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]">
 <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Ahmad Fauzi, S.Kom</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Bacaan 2 mnt</span>
 </div>
 </div>
@@ -425,7 +425,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
                 </p>
 <div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]">
 <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Dr. Hendra Wijaya, M.Sc</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Draf Terakhir: Kemarin, 16:40</span>
 </div>
 </div>
@@ -495,7 +495,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
                 </p>
 <div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]">
 <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Rian Mahendra, S.Pd</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Bacaan 3 mnt</span>
 </div>
 </div>
@@ -573,7 +573,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
                 </p>
 <div class="flex items-center gap-2 mt-1 text-on-surface-variant text-[12px]">
 <span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">person</span> Tim Humas Pusat</span>
-<span class="">•</span>
+<span class="">â€¢</span>
 <span class="">Diarsipkan sejak 01 Sep 2024</span>
 </div>
 </div>
@@ -629,7 +629,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <div class="p-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-sm border-t border-surface-container">
 <div class="flex items-center gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
 <span class="">Menampilkan <strong class="text-on-surface font-semibold">1 - 5</strong> dari total <strong class="text-on-surface font-semibold">128</strong> publikasi berita</span>
-<span class="text-outline-variant">•</span>
+<span class="text-outline-variant">â€¢</span>
 <div class="flex items-center gap-1">
 <span class="">Tampilkan</span>
 <select class="px-2 py-1 bg-surface-container-low rounded text-label-md font-label-md text-on-surface focus:outline-none">
@@ -677,7 +677,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <p class="font-body-sm text-body-sm text-on-surface leading-snug">
 <strong class="font-semibold text-primary">Dra. Nurul Hidayati, M.Pd</strong> mengunggah pembaruan lampiran <code class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant text-[12px]">SE_ASAS_2024.pdf</code> pada pengumuman jadwal semester.
             </p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">14 menit yang lalu • Melalui Portal Admin Humas</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">14 menit yang lalu â€¢ Melalui Portal Admin Humas</span>
 </div>
 </div>
 <div class="flex items-start gap-space-sm p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
@@ -688,7 +688,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <p class="font-body-sm text-body-sm text-on-surface leading-snug">
 <strong class="font-semibold text-primary">Ahmad Fauzi, S.Kom</strong> menerbitkan artikel resmi <span class="italic font-medium">"Kemenangan 3 Medali Emas OSN Nasional 2024"</span> dan menyematkannya ke Berita Utama.
             </p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">2 jam yang lalu • IP Humas Internal (192.168.10.42)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 jam yang lalu â€¢ IP Humas Internal (192.168.10.42)</span>
 </div>
 </div>
 <div class="flex items-start gap-space-sm p-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
@@ -699,7 +699,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <p class="font-body-sm text-body-sm text-on-surface leading-snug">
 <strong class="font-semibold text-primary">Dr. Hendra Wijaya</strong> menyimpan Draf Postingan <span class="italic font-medium">"Kurikulum Deep-Learning AI &amp; Robotika SMA"</span>.
             </p>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Kemarin, 16:40 WIB • Menunggu Validasi Kepala Sekolah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Kemarin, 16:40 WIB â€¢ Menunggu Validasi Kepala Sekolah</span>
 </div>
 </div>
 </div>
@@ -724,8 +724,8 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <div class="bg-primary h-2.5 rounded-full" style="width: 29.6%"></div>
 </div>
 <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-1">
-<span class="">• 128 Berkas PDF</span>
-<span class="">• 1.420 Foto Dokumentasi</span>
+<span class="">â€¢ 128 Berkas PDF</span>
+<span class="">â€¢ 1.420 Foto Dokumentasi</span>
 </div>
 </div>
 </div>
@@ -1079,7 +1079,11 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 </script></main>`
 
 export default function ManajemenBerita() {
-  // expose supabase helpers globally for the injected admin script
+  const [view, setView] = useState('berita')
+
+  useEffect(() => { if (view === 'berita' || view === 'dashboard-overview' || view === 'log-aktivitas') { setTimeout(() => { if (window.loadBeritaTable) window.loadBeritaTable() }, 200) } }, [view])
+
+  // expose helpers + view setter globally for injected sidebar
   useEffect(() => {
     window.getAllBerita = getAllBerita
     window.addBerita = addBerita
@@ -1087,7 +1091,35 @@ export default function ManajemenBerita() {
     window.deleteBerita = deleteBerita
     window.__editingId = null
     window.__deleteId = null
+    window.__setAdminView = (v) => setView(v)
   }, [])
+
+  // state for panels
+  const [categories, setCategories] = useState(['Prestasi', 'Pengumuman', 'Akademik', 'Ekstrakurikuler', 'Agenda'])
+  const [tags, setTags] = useState(['OSN', 'PPDB', 'Kurikulum', 'P5', 'Prestasi'])
+  const [newCat, setNewCat] = useState('')
+  const [newTag, setNewTag] = useState('')
+
+  const [files, setFiles] = useState([
+    { nama: 'SK_Pemenang_OSN_2024.pdf', ukuran: '1.4 MB' },
+    { nama: 'SE_ASAS_2024.pdf', ukuran: '420 KB' },
+  ])
+  const [newFile, setNewFile] = useState('')
+
+  const [galeri, setGaleri] = useState([
+    'https://lh3.googleusercontent.com/aida-public/AB6AXuAfQ5Rn2hx2ee1iCLSxPwdwSg2Y-dpIjRWexJ1QlDW11pyHTbliJ_gdBPnfLyzBBUBxbTqCzKxq-DXfdkHTgL01Rrm0xKFdZ7U_jhHwFchkEn_pldiUNDXd0K0o-7ktgI_ODe4gZSsup7gKPZYumM5ulw1GTbULwnTbNahi7F9Yon4NaGBOgi_lsg6MBkPg3z94TbpZ6Lh1nlv-uAYIY1gZABPeURwsvgfzh5djeN4qRUAzDqz1U_luSg',
+  ])
+  const [newImg, setNewImg] = useState('')
+
+  const [settings, setSettings] = useState({
+    nama: 'SMP Negeri 1 Cipeundeuy',
+    alamat: 'Jl. Pendidikan No. 1, Cipeundeuy, Kabupaten Subang, Jawa Barat 41281',
+    telepon: '(021) 7890-1234',
+    email: 'info@smpn1cipeundeuy.sch.id',
+    kepala: 'Dra. Nurul Hidayati, M.Pd',
+    logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBybPP72_nSQilbylVBT_6fG44ExivySQt3uCLJv_tj3AwirU7ywATfBEn_eoGUBvO3PksqRUAZx7qE2oqteQ5gSF9WkqzFOW2ClOJAj1alPQn6sJMQe3zr01giJJMT_vfuoSFoP6QDfLQccxC9kWW9k0XuIF2cxZaFBjl_BCgp_4C34yniiqlJcdegP64d0ZoKv_mgefLtvc6gFTuFC7xBPREFgAllSePdd-eYZyEk1brQuyQrXvkK3Q',
+  })
+  const [savedMsg, setSavedMsg] = useState('')
 
   const scriptMatch = mainHtml.match(/<script>([\s\S]*?)<\/script>/)
   const rawScript = scriptMatch ? scriptMatch[1] : ''
@@ -1120,8 +1152,8 @@ function renderRow(r) {
     '<td class="py-3.5 px-3 text-center"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm '+statusClass+' font-bold"><span class="w-1.5 h-1.5 rounded-full '+statusDot+'"></span>'+statusLabel+'</span></td>' +
     '<td class="py-3.5 px-3 text-right"><div class="flex flex-col items-end"><span class="font-bold text-on-surface text-[14px]">0</span><span class="text-[11px] text-on-surface-variant">tayangan</span></div></td>' +
     '<td class="py-3.5 pl-3 pr-4 text-center"><div class="flex items-center justify-center gap-1">' +
-      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openArticleModal(\'edit\', \''+id+'\')" title="Edit Artikel"><span class="material-symbols-outlined text-[18px]">edit_square</span></button>' +
-      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" onclick="confirmDeleteRow(\''+id+'\', \''+(r.judul||'').replace(/'/g,"\\\\'")+'\')" title="Hapus Berita"><span class="material-symbols-outlined text-[18px]">delete</span></button>' +
+      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openArticleModal(\\'edit\\', \\''+id+'\\')" title="Edit Artikel"><span class="material-symbols-outlined text-[18px]">edit_square</span></button>' +
+      '<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" onclick="confirmDeleteRow(\\''+id+'\\', \\''+(r.judul||'').replace(/'/g,"\\\\\'")+'\\')" title="Hapus Berita"><span class="material-symbols-outlined text-[18px]">delete</span></button>' +
     '</div></td></tr>';
 }
 
@@ -1142,8 +1174,7 @@ window.loadBeritaTable = async function() {
 };
 
 window.__editingId = null;
-
-const _origOpen = window.openArticleModal;
+var _origOpen = window.openArticleModal;
 window.openArticleModal = function(mode, articleId) {
   window.__editingId = (mode === 'edit') ? articleId : null;
   if (typeof _origOpen === 'function') _origOpen(mode, articleId);
@@ -1200,7 +1231,7 @@ window.publishArticleSubmit = async function() {
 };
 
 window.__deleteId = null;
-const _origConfirmDelete = window.confirmDeleteRow;
+var _origConfirmDelete = window.confirmDeleteRow;
 window.confirmDeleteRow = function(id, title) {
   window.__deleteId = id;
   if (typeof _origConfirmDelete === 'function') _origConfirmDelete(id, title);
@@ -1223,16 +1254,18 @@ window.togglePinStatus = async function(btn) {
   const newPinned = !currentlyPinned;
   try {
     await window.updateBerita(id, { adalah_utama: newPinned });
-    if (newPinned) { icon.classList.remove('text-outline-variant'); icon.classList.add('text-amber-500'); icon.style.fontVariationSettings = "'FILL' 1"; showToast('Disematkan sebagai Berita Utama!', 'star'); }
-    else { icon.classList.remove('text-amber-500'); icon.classList.add('text-outline-variant'); icon.style.fontVariationSettings = "'FILL' 0"; showToast('Status sematan dicabut.', 'star_border'); }
     await window.loadBeritaTable();
   } catch (e) { showToast('Gagal: ' + (e.message||e), 'error'); }
 };
 
-// sidebar menu activation
+// sidebar navigation switches view
 document.querySelectorAll('aside a[data-path]').forEach(function(a){
-  if (a.getAttribute('aria-current') === 'page' || a.getAttribute('data-path') === 'portal-berita') return;
-  a.addEventListener('click', function(e){ e.preventDefault(); if (typeof showToast === 'function') showToast('Modul ' + (a.querySelector('span:last-child') ? a.querySelector('span:last-child').innerText.trim() : a.getAttribute('data-path')) + ' segera tersedia.', 'info'); });
+  const path = a.getAttribute('data-path');
+  if (path === 'portal-berita') return; // Lihat Web Publik
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    if (window.__setAdminView) window.__setAdminView(path);
+  });
 });
 
 setTimeout(function(){ window.loadBeritaTable(); }, 300);
@@ -1243,26 +1276,131 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
     if (scriptText) {
       const s = document.createElement('script')
       s.setAttribute('data-admin-script', 'true')
-      s.textContent = scriptText
-      document.body.appendChild(s)
+      try { window.eval(scriptText) } catch (e) { console.error('RAW SCRIPT ERROR:', e.message) }
     }
+    document.querySelectorAll('script[data-admin-adapter="true"]').forEach((el) => el.remove())
     if (adapterScript) {
-      const s2 = document.createElement('script')
-      s2.setAttribute('data-admin-adapter', 'true')
-      document.querySelectorAll('script[data-admin-adapter="true"]').forEach((el) => el.remove())
-      s2.textContent = adapterScript
-      document.body.appendChild(s2)
+      window.onerror = function(msg, url, line, col) { console.error('WINDOW ERROR:', msg, 'line:', line, 'col:', col); return true; };
+      const s2 = document.createElement('script');
+      s2.setAttribute('data-admin-adapter', 'true');
+      s2.textContent = adapterScript;
+      const lines = adapterScript.split('\n');
+      console.log('RUNTIME LINE28:', JSON.stringify(lines[27]));
+      document.body.appendChild(s2);
     }
   }, [])
 
   const cleanHtml = mainHtml.replace(/<script>[\s\S]*?<\/script>/, '')
+
+  // panel helpers
+  function addCat() { if (newCat.trim()) { setCategories([...categories, newCat.trim()]); setNewCat('') } }
+  function addTag() { if (newTag.trim()) { setTags([...tags, newTag.trim()]); setNewTag('') } }
+  function addFile() { if (newFile.trim()) { setFiles([...files, { nama: newFile.trim(), ukuran: 'â€”' }]); setNewFile('') } }
+  function addImg() { if (newImg.trim()) { setGaleri([...galeri, newImg.trim()]); setNewImg('') } }
+  function saveSettings() { setSavedMsg('Pengaturan berhasil disimpan (sementara di memori).') }
+
+  const panelClass = 'bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md'
 
   return (
     <>
       <Sidebar />
       <div className="pl-72 min-h-screen bg-background">
         <AdminHeader />
-        <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+        <div className="w-full px-space-lg py-space-lg">
+          {view === 'berita' || view === 'dashboard-overview' || view === 'log-aktivitas' ? (
+            <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+          ) : view === 'kategori-dan-tag' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">label</span> Kategori &amp; Tag</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+                <div className="flex flex-col gap-space-sm">
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface">Kategori</h3>
+                  <div className="flex gap-space-sm">
+                    <input value={newCat} onChange={(e)=>setNewCat(e.target.value)} placeholder="Nama kategori baru" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                    <button onClick={addCat} className="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-lg">Tambah</button>
+                  </div>
+                  <ul className="flex flex-col gap-space-xs">
+                    {categories.map((c,i) => (
+                      <li key={i} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                        <span className="font-body-md text-on-surface">{c}</span>
+                        <button onClick={()=>setCategories(categories.filter((_,x)=>x!==i))} className="text-error hover:underline font-label-sm">Hapus</button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-col gap-space-sm">
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface">Tag</h3>
+                  <div className="flex gap-space-sm">
+                    <input value={newTag} onChange={(e)=>setNewTag(e.target.value)} placeholder="Nama tag baru" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                    <button onClick={addTag} className="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-lg">Tambah</button>
+                  </div>
+                  <ul className="flex flex-col gap-space-xs">
+                    {tags.map((t,i) => (
+                      <li key={i} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                        <span className="font-body-md text-on-surface">{t}</span>
+                        <button onClick={()=>setTags(tags.filter((_,x)=>x!==i))} className="text-error hover:underline font-label-sm">Hapus</button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : view === 'unggahan-berkas' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">upload_file</span> Unggahan Berkas &amp; PDF</h2>
+              <div className="flex gap-space-sm">
+                <input value={newFile} onChange={(e)=>setNewFile(e.target.value)} placeholder="Nama berkas baru" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <button onClick={addFile} className="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-lg">Tambah</button>
+              </div>
+              <ul className="flex flex-col gap-space-xs">
+                {files.map((f,i) => (
+                  <li key={i} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                    <div className="flex items-center gap-space-sm">
+                      <span className="material-symbols-outlined text-error">picture_as_pdf</span>
+                      <span className="font-body-md text-on-surface">{f.nama}</span>
+                      <span className="font-label-sm text-on-surface-variant">{f.ukuran}</span>
+                    </div>
+                    <button onClick={()=>setFiles(files.filter((_,x)=>x!==i))} className="text-error hover:underline font-label-sm">Hapus</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : view === 'galeri-media-admin' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">photo_library</span> Galeri Media</h2>
+              <div className="flex gap-space-sm">
+                <input value={newImg} onChange={(e)=>setNewImg(e.target.value)} placeholder="URL gambar baru" className="flex-1 px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <button onClick={addImg} className="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-lg">Tambah</button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+                {galeri.map((g,i) => (
+                  <div key={i} className="relative group rounded-lg overflow-hidden h-24">
+                    <img src={g} alt={'media '+i} className="w-full h-full object-cover" />
+                    <button onClick={()=>setGaleri(galeri.filter((_,x)=>x!==i))} className="absolute top-1 right-1 bg-error text-on-error rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity">âœ•</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : view === 'pengaturan-web' ? (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">settings</span> Pengaturan Web</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                {Object.keys(settings).map((k) => (
+                  <div key={k} className="flex flex-col gap-space-xs">
+                    <label className="font-label-md text-label-md text-on-surface font-semibold capitalize">{k}</label>
+                    <input value={settings[k]} onChange={(e)=>setSettings({...settings,[k]:e.target.value})} className="w-full px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                  </div>
+                ))}
+              </div>
+              <button onClick={saveSettings} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">Simpan</button>
+              {savedMsg && <div className="p-space-sm rounded-lg bg-emerald-50 text-emerald-800 font-body-sm">{savedMsg}</div>}
+            </div>
+          ) : (
+            <div className={panelClass}>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface">Modul segera tersedia</h2>
+            </div>
+          )}
+        </div>
       </div>
     </>
   )
