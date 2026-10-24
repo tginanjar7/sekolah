@@ -7,6 +7,8 @@ import Footer from './components/Footer.jsx'
 import ManajemenBerita from './ManajemenBerita.jsx'
 import ProfilSekolah from './ProfilSekolah.jsx'
 import BeritaPengumuman from './BeritaPengumuman.jsx'
+import Agenda from './Agenda.jsx'
+import GaleriKegiatan from './GaleriKegiatan.jsx'
 import rawPublicHtml from '../desain/portal_berita_dan_informasi_sekolah/code.html?raw'
 
 const publicScriptMatch = rawPublicHtml.match(/<script>\s*\(function\(\)[\s\S]*?<\/script>/)
@@ -43,6 +45,8 @@ export default function App() {
         <Route path="/" element={<PublicPage />} />
         <Route path="/profil-sekolah" element={<ProfilSekolah />} />
         <Route path="/berita-pengumuman" element={<BeritaPengumuman />} />
+        <Route path="/agenda" element={<Agenda />} />
+        <Route path="/galeri-kegiatan" element={<GaleriKegiatan />} />
         <Route path="/manajemen-berita" element={<ManajemenBerita />} />
       </Routes>
     </BrowserRouter>
