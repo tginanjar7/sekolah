@@ -1306,6 +1306,15 @@ document.querySelectorAll('aside a[data-path]').forEach(function(a){
     nav.appendChild(a);
     a.addEventListener('click', function(e){ e.preventDefault(); if (window.__setAdminView) window.__setAdminView('halaman'); });
   }
+  if (nav && !document.querySelector('aside a[data-path="profil-reset"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','profil-reset');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">refresh</span><span class="">Reset Profil</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); if (confirm('Hapus tampilan profil yang disimpan dan kembali ke default?')) { localStorage.removeItem('profil_sekolah_html'); window.location.reload(); } });
+  }
 })();
 
 // inject agenda sidebar link
@@ -1333,6 +1342,15 @@ document.querySelectorAll('aside a[data-path]').forEach(function(a){
     a.innerHTML = '<span class="material-symbols-outlined text-[20px]">home</span><span class="">Hero Beranda</span>';
     nav.appendChild(a);
     a.addEventListener('click', function(e){ e.preventDefault(); window.open('/?edit=1','_blank'); });
+  }
+  if (nav && !document.querySelector('aside a[data-path="hero-reset"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','hero-reset');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">refresh</span><span class="">Reset Hero</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); if (confirm('Hapus tampilan hero yang disimpan dan kembali ke default?')) { localStorage.removeItem('hero_html'); window.location.reload(); } });
   }
 })();
 
@@ -1410,8 +1428,44 @@ setTimeout(function(){ window.loadBeritaTable(); }, 300);
       <div className="pl-72 min-h-screen bg-background">
         <AdminHeader />
         <div className="w-full px-space-lg py-space-lg">
-          {view === 'berita' || view === 'dashboard-overview' || view === 'log-aktivitas' ? (
+          {view === 'berita' || view === 'log-aktivitas' ? (
             <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+          ) : view === 'dashboard-overview' ? (
+            <div className="flex flex-col gap-space-lg">
+              <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+              <div className={panelClass}>
+                <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">event</span> Agenda Kegiatan</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                  <input value={agBulan} onChange={(e)=>setAgBulan(e.target.value)} placeholder="Bulan (NOV)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                  <input value={agTanggal} onChange={(e)=>setAgTanggal(e.target.value)} placeholder="Tanggal (25)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                  <input value={agKategori} onChange={(e)=>setAgKategori(e.target.value)} placeholder="Kategori" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                </div>
+                <input value={agJudul} onChange={(e)=>setAgJudul(e.target.value)} placeholder="Judul agenda" className="w-full px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+                  <input value={agWaktu} onChange={(e)=>setAgWaktu(e.target.value)} placeholder="Waktu (07.30 WIB)" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                  <input value={agTempat} onChange={(e)=>setAgTempat(e.target.value)} placeholder="Tempat" className="px-space-md py-2 bg-surface-container-low rounded-lg text-body-md" />
+                </div>
+                <button onClick={() => {
+                  if (!agJudul.trim()) return
+                  const item = { bulan: agBulan.trim() || 'JAN', tanggal: agTanggal.trim() || '01', judul: agJudul.trim(), waktu: agWaktu.trim(), tempat: agTempat.trim(), kategori: agKategori.trim() || 'Umum' }
+                  const updated = [...agendaItems, item]
+                  setAgendaItems(updated)
+                  localStorage.setItem('agenda_items', JSON.stringify(updated))
+                  setAgBulan(''); setAgTanggal(''); setAgJudul(''); setAgWaktu(''); setAgTempat(''); setAgKategori('')
+                }} className="w-fit px-space-lg py-2.5 bg-primary text-on-primary rounded-lg font-label-lg">+, Tambah Agenda</button>
+                <ul className="flex flex-col gap-space-xs">
+                  {agendaItems.map((a, i) => (
+                    <li key={i} className="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg">
+                      <div className="flex flex-col">
+                        <span className="font-body-md text-on-surface font-semibold">{a.judul}</span>
+                        <span className="font-label-sm text-on-surface-variant">{a.bulan} {a.tanggal} • {a.waktu} • {a.tempat} • {a.kategori}</span>
+                      </div>
+                      <button onClick={() => { const updated = agendaItems.filter((_,x)=>x!==i); setAgendaItems(updated); localStorage.setItem('agenda_items', JSON.stringify(updated)) }} className="text-error hover:underline font-label-sm">Hapus</button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           ) : view === 'kategori-dan-tag' ? (
             <div className={panelClass}>
               <h2 className="font-headline-lg text-headline-lg text-on-surface flex items-center gap-space-sm"><span className="material-symbols-outlined text-primary">label</span> Kategori &amp; Tag</h2>

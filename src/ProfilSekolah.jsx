@@ -79,10 +79,11 @@ export default function ProfilSekolah() {
       {!editMode && <button onClick={() => setEditMode(true)} className="px-4 py-2 bg-primary text-on-primary rounded-lg shadow">Edit</button>}
       {editMode && <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 text-on-primary rounded-lg shadow">Simpan</button>}
       {editMode && <button onClick={() => { setEditMode(false); window.location.reload() }} className="px-4 py-2 bg-surface-container text-on-surface rounded-lg shadow">Batal</button>}
+      {!editMode && savedHtml && savedHtml.trim() && <button onClick={() => { localStorage.removeItem('profil_sekolah_html'); setSavedHtml(null) }} className="px-4 py-2 bg-error text-on-error rounded-lg shadow">Reset Default</button>}
     </div>
   ) : null
 
-  if (savedHtml && !editMode) {
+  if (savedHtml && savedHtml.trim() && !editMode) {
     return (
       <>
         <Header />
