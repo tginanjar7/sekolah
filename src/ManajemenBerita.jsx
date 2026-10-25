@@ -12,7 +12,7 @@ const mainHtml = `<main class="w-full pt-16 bg-background min-h-screen px-space-
 <span class="material-symbols-outlined text-[14px]">auto_stories</span> CMS Humas &amp; Publikasi
         </span>
 <span class="text-outline-variant">â€¢</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Tahun Ajaran 2024/2025</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tahun Ajaran 2026/2027</span>
 </div>
 <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Manajemen Berita &amp; Pengumuman Sekolah</h1>
 <p class="font-body-md text-body-md text-on-surface-variant">Kelola alur publikasi artikel, pengumuman kedinasan, edaran PDF resmi, serta kurasi sematan berita utama beranda SMP Negeri 1 Cipeundeuy.</p>

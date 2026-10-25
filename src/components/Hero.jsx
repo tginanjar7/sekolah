@@ -9,7 +9,7 @@ export default function Hero() {
 <div class="flex flex-wrap items-center gap-space-sm">
 <span class="inline-flex items-center gap-space-xs bg-surface-container-lowest/15 backdrop-blur-md px-space-md py-1 rounded-full text-tertiary-fixed font-label-md text-label-md font-bold uppercase tracking-wider">
 <span class="w-2 h-2 rounded-full bg-tertiary-fixed animate-pulse"></span>
-          Tahun Ajaran 2024/2025
+          Tahun Ajaran 2026/2027
         </span>
 <span class="inline-flex items-center gap-space-xs bg-surface-container-lowest/15 backdrop-blur-md px-space-md py-1 rounded-full text-on-primary font-label-md text-label-md">
 <span class="material-symbols-outlined text-[16px] text-tertiary-fixed">verified</span>
