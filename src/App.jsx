@@ -1,4 +1,4 @@
-﻿import { BrowserRouter, Routes, Route } from 'react-router-dom'
+﻿import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
@@ -114,7 +114,9 @@ export default function App() {
         <Route path="/galeri-kegiatan" element={<GaleriKegiatan />} />
         <Route path="/unduhan-edaran" element={<UnduhanEdaran />} />
         <Route path="/kontak" element={<Kontak />} />
-        <Route path="/halaman/:slug" element={<Halaman />} />
+        <Route path="/galeri" element={<Navigate to="/galeri-kegiatan" replace />} />
+        <Route path="/media" element={<Navigate to="/galeri-kegiatan" replace />} />
+        <Route path="/profil" element={<Navigate to="/profil-sekolah" replace />} />
         <Route path="/manajemen-berita" element={<ProtectedRoute><ManajemenBerita /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
