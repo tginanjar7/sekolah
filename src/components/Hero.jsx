@@ -1,6 +1,7 @@
-import React from 'react'
-export default function Hero() {
-  const html = `<!-- HERO SECTION WITH EDITORIAL DEPTH -->
+import { useEffect, useRef, useState } from 'react'
+import { supabase } from '../supabaseClient.js'
+
+const defaultHtml = `<!-- HERO SECTION WITH EDITORIAL DEPTH -->
 <section class="relative overflow-hidden bg-primary text-on-primary -mt-28 pt-36 pb-20 px-gutter shadow-xl">
 <div class="absolute -right-24 -top-24 w-96 h-96 bg-primary-container rounded-full blur-3xl opacity-40 pointer-events-none"></div>
 <div class="absolute left-1/3 -bottom-20 w-80 h-80 bg-secondary rounded-full blur-3xl opacity-30 pointer-events-none"></div>
@@ -70,7 +71,55 @@ export default function Hero() {
 </div>
 </div>
 </div>
-</section>
-`;
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+</section>`
+
+export default function Hero() {
+  const [savedHtml, setSavedHtml] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data && data.session) {
+        setIsAdmin(true)
+        if (new URLSearchParams(window.location.search).get('edit') === '1') setEditMode(true)
+      }
+    })
+    const raw = localStorage.getItem('hero_html')
+    if (raw) setSavedHtml(raw)
+  }, [])
+
+  function handleSave() {
+    if (contentRef.current) {
+      const html = contentRef.current.innerHTML
+      localStorage.setItem('hero_html', html)
+      setSavedHtml(html)
+      setEditMode(false)
+    }
+  }
+
+  const controls = isAdmin ? (
+    <div className="fixed bottom-4 right-4 z-50 flex gap-2">
+      {!editMode && <button onClick={() => setEditMode(true)} className="px-4 py-2 bg-primary text-on-primary rounded-lg shadow">Edit Hero</button>}
+      {editMode && <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 text-on-primary rounded-lg shadow">Simpan</button>}
+      {editMode && <button onClick={() => setEditMode(false)} className="px-4 py-2 bg-surface-container text-on-surface rounded-lg shadow">Batal</button>}
+    </div>
+  ) : null
+
+  if (savedHtml && !editMode) {
+    return (
+      <>
+        <div dangerouslySetInnerHTML={{ __html: savedHtml }} />
+        {controls}
+      </>
+    )
+  }
+
+  return (
+    <>
+      <div ref={contentRef} contentEditable={isAdmin && editMode} suppressContentEditableWarning dangerouslySetInnerHTML={{ __html: defaultHtml }} />
+      {controls}
+    </>
+  )
 }

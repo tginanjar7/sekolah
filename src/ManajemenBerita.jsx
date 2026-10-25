@@ -1322,6 +1322,20 @@ document.querySelectorAll('aside a[data-path]').forEach(function(a){
   }
 })();
 
+// inject hero sidebar link
+(function(){
+  const nav = document.querySelector('aside nav');
+  if (nav && !document.querySelector('aside a[data-path="hero-admin"]')) {
+    const a = document.createElement('a');
+    a.setAttribute('data-path','hero-admin');
+    a.className = 'flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-on-primary transition-all font-label-lg text-label-lg';
+    a.href = '#';
+    a.innerHTML = '<span class="material-symbols-outlined text-[20px]">home</span><span class="">Hero Beranda</span>';
+    nav.appendChild(a);
+    a.addEventListener('click', function(e){ e.preventDefault(); window.open('/?edit=1','_blank'); });
+  }
+})();
+
 setTimeout(function(){ window.loadBeritaTable(); }, 300);
 `;
 
